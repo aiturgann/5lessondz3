@@ -9,12 +9,12 @@ import UIKit
 
 protocol MainViewProtocol {
     
-    func successNotes(notes: [String])
+    func successNotes(notes: [Note])
 }
 
 class MainView: UIViewController {
     
-    private var notes: [String] = []
+    private var notes: [Note] = []
     
     private var controller: MainControllerProtocol?
     
@@ -55,6 +55,7 @@ class MainView: UIViewController {
         button.backgroundColor = .red
         button.layer.cornerRadius = 42/2
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addBtnTppd), for: .touchUpInside)
         return button
     }()
 
@@ -66,7 +67,6 @@ class MainView: UIViewController {
         
         setupUI()
         controller = MainController(view: self)
-        controller?.onGetNotes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,6 +79,7 @@ class MainView: UIViewController {
         }
         
         setupNavItem(isDarkTheme: isDarkTheme)
+        controller?.onGetNotes()
     }
     
     private func setupNavItem(isDarkTheme: Bool) {
@@ -137,6 +138,11 @@ class MainView: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc private func addBtnTppd() {
+        let vc = AddNoteView()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
 extension MainView: UICollectionViewDataSource {
@@ -147,7 +153,7 @@ extension MainView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCVCell.reuseId, for: indexPath) as! MainCVCell
-        cell.setData(title: notes[indexPath.row])
+        cell.setData(title: notes[indexPath.row].title ?? "")
 //        cell.backgroundColor = UIColor(named: backgroundColors[indexPath.row])
         cell.backgroundColor = .systemMint
         cell.layer.cornerRadius = 12
@@ -159,7 +165,7 @@ extension MainView: UICollectionViewDataSource {
 
 extension MainView: MainViewProtocol {
     
-    func successNotes(notes: [String]) {
+    func successNotes(notes: [Note]) {
         self.notes = notes
         collectionView.reloadData()
     }

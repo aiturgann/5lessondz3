@@ -14,13 +14,16 @@ protocol MainModelProtocol {
 class MainModel: MainModelProtocol {
     var controller: MainControllerProtocol?
     
+    private let coreDataService = CoreDataService.shared
+    
     init(controller: MainControllerProtocol) {
         self.controller = controller
     }
     
-    var notes: [String] = ["School notes", "Funny jokes", "Travel bucket list", "Random cooking ideas"]
+    var notes: [Note] = []
     
     func getNotes() {
+        notes = coreDataService.fetchNotes()
         controller?.onSuccessNotes(notes: notes)
     }
 }

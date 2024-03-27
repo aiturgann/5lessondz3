@@ -10,7 +10,7 @@ import Foundation
 protocol MainControllerProtocol {
     func onGetNotes()
     
-    func onSuccessNotes(notes: [String])
+    func onSuccessNotes(notes: [Note])
 }
 
 class MainController: MainControllerProtocol {
@@ -27,7 +27,7 @@ class MainController: MainControllerProtocol {
         model?.getNotes()
     }
     
-    func onSuccessNotes(notes: [String]) {
+    func onSuccessNotes(notes: [Note]) {
         view?.successNotes(notes: notes)
     }
 }
