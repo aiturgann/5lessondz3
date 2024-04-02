@@ -18,11 +18,13 @@ class MainView: UIViewController {
     
     private var controller: MainControllerProtocol?
     
-    private let searchBar: UISearchBar = {
+    private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search"
         searchBar.backgroundImage = UIImage()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+//        searchBar.delegate = self
+        searchBar.searchTextField.addTarget(self, action: #selector(searchBarEditingChanged), for: .editingChanged)
         return searchBar
     }()
     
@@ -58,11 +60,21 @@ class MainView: UIViewController {
         button.addTarget(self, action: #selector(addBtnTppd), for: .touchUpInside)
         return button
     }()
+    
+    private let searchResultLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Nothing was found for your request..."
+        label.isHidden = true
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(MainCVCell.self, forCellWithReuseIdentifier: MainCVCell.reuseId)
         
         setupUI()
@@ -131,6 +143,12 @@ class MainView: UIViewController {
              addButton.heightAnchor.constraint(equalToConstant: 42),
              addButton.widthAnchor.constraint(equalToConstant: 42)
             ])
+        
+        view.addSubview(searchResultLabel)
+        NSLayoutConstraint.activate(
+            [searchResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             searchResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
     }
     
     @objc private func settingsBtnTppd() {
@@ -141,6 +159,13 @@ class MainView: UIViewController {
     @objc private func addBtnTppd() {
         let vc = AddNoteView()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func searchBarEditingChanged() {
+        guard let text = searchBar.text else {
+            return
+        }
+        controller?.onSearchNotes(text: text)
     }
     
 }
@@ -154,7 +179,6 @@ extension MainView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCVCell.reuseId, for: indexPath) as! MainCVCell
         cell.setData(title: notes[indexPath.row].title ?? "")
-//        cell.backgroundColor = UIColor(named: backgroundColors[indexPath.row])
         cell.backgroundColor = .systemMint
         cell.layer.cornerRadius = 12
         return cell
@@ -163,13 +187,30 @@ extension MainView: UICollectionViewDataSource {
     
 }
 
+extension MainView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = AddNoteView()
+        vc.setNote(note: notes[indexPath.row])
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+    
+
 extension MainView: MainViewProtocol {
     
     func successNotes(notes: [Note]) {
+        if notes.isEmpty {
+            searchResultLabel.isHidden = false
+        } else {
+            searchResultLabel.isHidden = true
+        }
         self.notes = notes
         collectionView.reloadData()
     }
 }
 
-
-
+extension MainView: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+}

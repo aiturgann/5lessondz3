@@ -9,6 +9,8 @@ import Foundation
 
 protocol MainModelProtocol {
     func getNotes()
+    
+    func searchNotes(text: String)
 }
 
 class MainModel: MainModelProtocol {
@@ -20,10 +22,27 @@ class MainModel: MainModelProtocol {
         self.controller = controller
     }
     
-    var notes: [Note] = []
+    private var notes: [Note] = []
+    
+    private var filteredNotes: [Note] = []
     
     func getNotes() {
         notes = coreDataService.fetchNotes()
-        controller?.onSuccessNotes(notes: notes)
+        filteredNotes = notes
+        controller?.onSuccessNotes(notes: filteredNotes)
+    }
+    
+    func searchNotes(text: String) {
+        filteredNotes = []
+        
+        if text.isEmpty {
+            filteredNotes = notes
+            controller?.onSuccessNotes(notes: filteredNotes)
+        } else {
+            filteredNotes = notes.filter({ note in
+                note.title?.uppercased().contains(text.uppercased()) == true
+            })
+            controller?.onSuccessNotes(notes: filteredNotes)
+        }
     }
 }

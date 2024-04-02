@@ -13,6 +13,8 @@ protocol SettingsViewProtocol: AnyObject {
 
 class SettingsView: UIViewController {
     
+    private var controller: SettingsControllerProtocol?
+    
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: CGRect(), style: .insetGrouped)
         view.delegate = self
@@ -37,6 +39,7 @@ class SettingsView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        controller = SettingsController(settingsView: self)
         setupUI()
     }
     
@@ -80,8 +83,6 @@ class SettingsView: UIViewController {
             ])
         
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.dataSource = self
         tableView.register(SettingsCVCell.self, forCellReuseIdentifier: SettingsCVCell.reuseId)
         tableView.backgroundColor = .systemBackground
         
@@ -131,9 +132,33 @@ extension SettingsView: UITableViewDataSource {
     
 }
 
+extension SettingsView: SettingsViewProtocol {
+    
+}
+
 extension SettingsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 51
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            
+            let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete all notes?", preferredStyle: .alert)
+            let acceptAction = UIAlertAction(title: "Yes", style: .destructive) { action in
+            
+                self.controller?.onDeleteNotes()
+            }
+            let declineAction = UIAlertAction(title: "No", style: .cancel)
+            
+            alert.addAction(acceptAction)
+            alert.addAction(declineAction)
+            
+            present(alert, animated: true)
+        } else if indexPath.row == 0 {
+            let vc = ChangeLanguageView()
+            present(vc, animated: true)
+        }
     }
 }
 

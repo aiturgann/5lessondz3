@@ -14,6 +14,8 @@
 		1D323BBC2BB435BA00AFA267 /* Note.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D323BBA2BB435BA00AFA267 /* Note.xcdatamodeld */; };
 		1D323BC32BB4444A00AFA267 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D323BC12BB4444A00AFA267 /* Note+CoreDataClass.swift */; };
 		1D323BC42BB4444A00AFA267 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D323BC22BB4444A00AFA267 /* Note+CoreDataProperties.swift */; };
+		1D33D67E2BBC00EE008AD1D1 /* ChangeLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33D67D2BBC00EE008AD1D1 /* ChangeLanguageView.swift */; };
+		1D33D6802BBC0360008AD1D1 /* ChangeLanguageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33D67F2BBC0360008AD1D1 /* ChangeLanguageTVCell.swift */; };
 		1D44C22E2BB21266002F1C9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C22D2BB21266002F1C9D /* AppDelegate.swift */; };
 		1D44C2302BB21266002F1C9D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C22F2BB21266002F1C9D /* SceneDelegate.swift */; };
 		1D44C2322BB21266002F1C9D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C2312BB21266002F1C9D /* MainView.swift */; };
@@ -40,6 +42,8 @@
 		1D323BBB2BB435BA00AFA267 /* Note.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Note.xcdatamodel; sourceTree = "<group>"; };
 		1D323BC12BB4444A00AFA267 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1D323BC22BB4444A00AFA267 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1D33D67D2BBC00EE008AD1D1 /* ChangeLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLanguageView.swift; sourceTree = "<group>"; };
+		1D33D67F2BBC0360008AD1D1 /* ChangeLanguageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLanguageTVCell.swift; sourceTree = "<group>"; };
 		1D44C22A2BB21266002F1C9D /* 5lessondz3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 5lessondz3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D44C22D2BB21266002F1C9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D44C22F2BB21266002F1C9D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +93,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		1D33D67C2BBC0097008AD1D1 /* ChangeLanguageScreen */ = {
+			isa = PBXGroup;
+			children = (
+				1D33D67D2BBC00EE008AD1D1 /* ChangeLanguageView.swift */,
+				1D33D67F2BBC0360008AD1D1 /* ChangeLanguageTVCell.swift */,
+			);
+			path = ChangeLanguageScreen;
+			sourceTree = "<group>";
+		};
 		1D44C2212BB21266002F1C9D = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +148,7 @@
 		1D44C2422BB212CA002F1C9D /* VC */ = {
 			isa = PBXGroup;
 			children = (
+				1D33D67C2BBC0097008AD1D1 /* ChangeLanguageScreen */,
 				1D323BA92BB42EFB00AFA267 /* AddNoteScreen */,
 				1D44C2552BB213C9002F1C9D /* OnBoardingScreen */,
 				1D44C24C2BB21368002F1C9D /* SettingsScreen */,
@@ -274,8 +288,10 @@
 				1D44C25B2BB215C7002F1C9D /* Model.swift in Sources */,
 				1D44C2542BB213C5002F1C9D /* SettingsTVCell.swift in Sources */,
 				1D323BBC2BB435BA00AFA267 /* Note.xcdatamodeld in Sources */,
+				1D33D6802BBC0360008AD1D1 /* ChangeLanguageTVCell.swift in Sources */,
 				1D323BAB2BB42F1800AFA267 /* AddNoteView.swift in Sources */,
 				1D44C2522BB213B0002F1C9D /* SettingsModel.swift in Sources */,
+				1D33D67E2BBC00EE008AD1D1 /* ChangeLanguageView.swift in Sources */,
 				1D44C22E2BB21266002F1C9D /* AppDelegate.swift in Sources */,
 				1D44C2572BB213E4002F1C9D /* OnBoardingView.swift in Sources */,
 				1D323BC32BB4444A00AFA267 /* Note+CoreDataClass.swift in Sources */,

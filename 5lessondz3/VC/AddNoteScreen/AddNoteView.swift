@@ -8,7 +8,9 @@
 import UIKit
 
 protocol AddNoteViewProtocol: AnyObject {
+    func successDelete()
     
+    func failureDelete()
 }
 
 class AddNoteView: UIViewController {
@@ -43,6 +45,9 @@ class AddNoteView: UIViewController {
         tf.backgroundColor = .systemGray6
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.addTarget(self, action: #selector(validateTF), for: .editingChanged)
+        if let note = note {
+            tf.text = note.desc
+        }
         return tf
     }()
     
@@ -67,29 +72,58 @@ class AddNoteView: UIViewController {
         setupNavItem()
     }
     
-    private func setupNavItem() {
-        
-        navigationItem.title = "Settings"
-        
-        let navItemSettingsButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsBtnTppd))
-        navItemSettingsButton.tintColor = .black
-        navigationItem.rightBarButtonItem = navItemSettingsButton
+    func setNote(note: Note) {
+        self.note = note
     }
     
-    @objc private func settingsBtnTppd() {
+    private func setupNavItem() {
+        
+        let navItemSettingsButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteBtnTppd))
+        navItemSettingsButton.tintColor = .black
+        if note != nil {
+            navigationItem.rightBarButtonItem = navItemSettingsButton
+        }
+    }
+    
+    @objc private func deleteBtnTppd() {
+        guard let note = note else {
+            return
+        }
+        
+        let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete this note?", preferredStyle: .alert)
+        let acceptAction = UIAlertAction(title: "Yes", style: .destructive) { action in
+            
+            self.controller?.onDeleteNote(id: note.id ?? "")
+        }
+        let declineAction = UIAlertAction(title: "No", style: .cancel)
+        
+        alert.addAction(acceptAction)
+        alert.addAction(declineAction)
+        
+        present(alert, animated: true)
         
     }
     
     @objc private func saveButtonTppd()  {
-        if titleTF.text?.isEmpty != true, descriptionTF.text?.isEmpty != true {
-            
-            let alert = UIAlertController(title: "Succes", message: "Notes saved successfully", preferredStyle: .alert)
+        if let note = note {
+            let alert = UIAlertController(title: "Succes", message: "Notes updated successfully", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .destructive) { action in
-                self.controller?.onAddNote(title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
-                    self.navigationController?.popViewController(animated: true)
+                self.controller?.onUpdateNote(id: note.id ?? "", title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
+                self.navigationController?.popViewController(animated: true)
             }
             alert.addAction(action)
             present(alert, animated: true)
+            
+        } else {
+            if titleTF.text?.isEmpty != true, descriptionTF.text?.isEmpty != true {
+                let alert = UIAlertController(title: "Succes", message: "Notes saved successfully", preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .destructive) { action in
+                    self.controller?.onAddNote(title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
+                    self.navigationController?.popViewController(animated: true)
+                }
+                alert.addAction(action)
+                present(alert, animated: true)
+            }
         }
     }
     
@@ -133,6 +167,12 @@ class AddNoteView: UIViewController {
 }
 
 extension AddNoteView: AddNoteViewProtocol {
+    func successDelete() {
+        navigationController?.popViewController(animated: true)
+    }
     
+    func failureDelete() {
+        ()
+    }
 }
 

@@ -11,6 +11,8 @@ protocol MainControllerProtocol {
     func onGetNotes()
     
     func onSuccessNotes(notes: [Note])
+    
+    func onSearchNotes(text: String)
 }
 
 class MainController: MainControllerProtocol {
@@ -29,6 +31,10 @@ class MainController: MainControllerProtocol {
     
     func onSuccessNotes(notes: [Note]) {
         view?.successNotes(notes: notes)
+    }
+    
+    func onSearchNotes(text: String) {
+        model?.searchNotes(text: text)
     }
 }
 

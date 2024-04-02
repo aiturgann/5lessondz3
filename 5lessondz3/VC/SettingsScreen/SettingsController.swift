@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SettingsControllerProtocol: AnyObject {
-     
+     func onDeleteNotes()
 }
 
 class SettingsController: SettingsControllerProtocol {
@@ -22,5 +22,9 @@ class SettingsController: SettingsControllerProtocol {
     
     deinit {
         print("SettingsController is out")
+    }
+    
+    func onDeleteNotes() {
+        model?.deleteNotes()
     }
 }

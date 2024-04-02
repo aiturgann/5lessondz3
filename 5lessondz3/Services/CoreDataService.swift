@@ -48,6 +48,52 @@ class CoreDataService: NSObject {
         return []
     }
     
+    func deleteNote(id: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
+        do {
+            guard let notes = try context.fetch(fetchRequest) as? [Note], let note = notes.first(where: { note in
+                id == note.id
+            }) else {
+                return
+            }
+            context.delete(note)
+        } catch {
+            print(error.localizedDescription)
+        }
+        appDelegate.saveContext()
+    }
+    
+    func deleteNotes() {
+        print("deleteNotes")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
+        do {
+            let notes = try context.fetch(fetchRequest) as? [Note]
+            notes?.forEach({ note in
+                context.delete(note)
+            })
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+        appDelegate.saveContext()
+    }
+    
+    func updateNote(id: String, title: String, description: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
+        do {
+            guard let notes = try context.fetch(fetchRequest) as? [Note], let note = notes.first(where: { note in
+                id == note.id
+            }) else {
+                return
+            }
+            note.title = title
+            note.desc = description
+        } catch {
+            print(error.localizedDescription)
+        }
+        appDelegate.saveContext()
+    }
+    
     
 }
 

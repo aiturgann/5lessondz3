@@ -8,18 +8,24 @@
 import UIKit
 
 protocol SettingsModelProtocol: AnyObject {
-    
+    func deleteNotes()
 }
 
 class SettingsModel: SettingsModelProtocol {
     
     weak var controller: SettingsControllerProtocol?
     
-    init(controller: SettingsControllerProtocol? = nil) {
+    private let coreDataService = CoreDataService.shared
+    
+    init(controller: SettingsControllerProtocol) {
         self.controller = controller
     }
     
     deinit {
         print("SettingsModel is out")
+    }
+    
+    func deleteNotes() {
+        coreDataService.deleteNotes()
     }
 }

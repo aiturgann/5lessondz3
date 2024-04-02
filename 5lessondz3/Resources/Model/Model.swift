@@ -7,8 +7,6 @@
 
 import UIKit
 
-struct Model {
-    var image: UIImage
-    var title: String
-    var description: String
-}
+
+
+
