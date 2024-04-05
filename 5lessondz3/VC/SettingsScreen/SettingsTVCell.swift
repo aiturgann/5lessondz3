@@ -83,8 +83,10 @@ class SettingsCVCell: UITableViewCell {
             rightButton.tintColor = .black
             rightButton.semanticContentAttribute = .forceRightToLeft
             switchView.isHidden = true
+            rightButton.isHidden = false
         } else if settings.type == .withSwitch {
             rightButton.isHidden = true
+            switchView.isHidden = false
         } else if settings.type == .usual {
             switchView.isHidden = true
             rightButton.isHidden = true

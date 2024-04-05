@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol ChangeLanguageViewDelegate: AnyObject {
+    func didLanguageChoose()
+}
+
 class ChangeLanguageView: UIViewController {
+    
+    weak var delegate: ChangeLanguageViewDelegate?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Choose language"
+        label.text = "Choose language".localized()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -38,6 +44,10 @@ class ChangeLanguageView: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
+    }
+    
+    private func localizeWords() {
+        titleLabel.text = "Choose language".localized()
     }
     
     private func setupUI() {
@@ -76,5 +86,24 @@ extension ChangeLanguageView: UITableViewDataSource {
 extension ChangeLanguageView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let appLanguageManager = AppLanguageManager.shared
+        switch indexPath.row {
+        case 0:
+            appLanguageManager.setAppLanguage(language: .kg)
+            UserDefaults.standard.set("kg", forKey: "isLanguageChanged")
+        case 1:
+            appLanguageManager.setAppLanguage(language: .ru)
+            UserDefaults.standard.set("ru", forKey: "isLanguageChanged")
+        case 2:
+            appLanguageManager.setAppLanguage(language: .en)
+            UserDefaults.standard.set("en", forKey: "isLanguageChanged")
+        default:
+            ()
+        }
+        localizeWords()
+        delegate?.didLanguageChoose()
     }
 }

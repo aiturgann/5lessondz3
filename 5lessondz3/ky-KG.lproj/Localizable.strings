@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  5lessondz3
+
+  Created by Aiturgan Kurmanbekova on 4/4/24.
+  
+*/
+
+"Home" = "Башкы";
+"Choose language" = "Тилди тандаңыз";
+"Settings" = "Баптоолор";
+"Language" = "Тил";
+"Dark theme" = "Кара темасы";
+"Clear data" = "Маалымат тазалоо";
+"Search" = "Издөө";
+"Notes" = "Шилтемелер";
+"Title" = "Аталышы";
+"Start typing" = "Жазып баштаңыз";
+"Save" = "Сактоо";
+"Succes" = "Ийгилик";
+"Notes updated successfully" = "Шилтемелер ийгиликтүү жаңыланды";
+"Notes saved successfully" = "Шилтемелер ийгиликтүү сакталды";
+"Delete" = "Жок кылуу";
+"Are you sure you want to delete this note?" = "Бул шилтемени жок кылууга ишенимдүүсүзбү?";
+"Yes" = "Ооба";
+"No" = "Жок";
+"Are you sure you want to delete all notes?" = "Бардык шилтемелерди жок кылууга ишенимдүүсүзбү";
+"Russian" = "Орусча";
+"Nothing was found for your request..." = "Сиздин сурамыңыз боюнча эч нерсе табылган жок...";

@@ -21,6 +21,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
         var homeView = UIViewController()
         
+//        AppLanguageManager.shared.setAppLanguage(language: .en)
+        
+        let changeLanguage = UserDefaults.standard.string(forKey: "isLanguageChanged")
+        
+        if changeLanguage == "kg" {
+            AppLanguageManager.shared.setAppLanguage(language: .kg)
+        } else if changeLanguage == "ru" {
+            AppLanguageManager.shared.setAppLanguage(language: .ru)
+        } else if changeLanguage == "en" {
+            AppLanguageManager.shared.setAppLanguage(language: .en)
+        }
         
         if UserDefaults.standard.bool(forKey: "isOnboardingShown") {
             homeView = MainView()

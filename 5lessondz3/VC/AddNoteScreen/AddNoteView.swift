@@ -21,7 +21,7 @@ class AddNoteView: UIViewController {
         
     private lazy var titleTF: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Title"
+        tf.placeholder = "Title".localized()
         tf.layer.borderWidth = 1
         tf.layer.cornerRadius = 20
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
@@ -37,7 +37,7 @@ class AddNoteView: UIViewController {
     
     private lazy var descriptionTF:UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Start typing"
+        tf.placeholder = "Start typing".localized()
         tf.layer.cornerRadius = 20
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
         tf.leftView = leftView
@@ -54,7 +54,7 @@ class AddNoteView: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .systemGray5
-        button.setTitle("Сохранить", for: .normal)
+        button.setTitle("Save".localized(), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 22
@@ -72,12 +72,18 @@ class AddNoteView: UIViewController {
         setupNavItem()
     }
     
+    private func localizeWords() {
+        titleTF.placeholder = "Title".localized()
+        descriptionTF.placeholder = "Start typing".localized()
+        saveButton.setTitle("Save".localized(), for: .normal)
+    }
+    
     func setNote(note: Note) {
         self.note = note
     }
     
     private func setupNavItem() {
-        
+        localizeWords()
         let navItemSettingsButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteBtnTppd))
         navItemSettingsButton.tintColor = .black
         if note != nil {
@@ -90,12 +96,12 @@ class AddNoteView: UIViewController {
             return
         }
         
-        let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete this note?", preferredStyle: .alert)
-        let acceptAction = UIAlertAction(title: "Yes", style: .destructive) { action in
+        let alert = UIAlertController(title: "Delete".localized(), message: "Are you sure you want to delete this note?".localized(), preferredStyle: .alert)
+        let acceptAction = UIAlertAction(title: "Yes".localized(), style: .destructive) { action in
             
             self.controller?.onDeleteNote(id: note.id ?? "")
         }
-        let declineAction = UIAlertAction(title: "No", style: .cancel)
+        let declineAction = UIAlertAction(title: "No".localized(), style: .cancel)
         
         alert.addAction(acceptAction)
         alert.addAction(declineAction)
@@ -106,7 +112,7 @@ class AddNoteView: UIViewController {
     
     @objc private func saveButtonTppd()  {
         if let note = note {
-            let alert = UIAlertController(title: "Succes", message: "Notes updated successfully", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Succes".localized(), message: "Notes updated successfully".localized(), preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .destructive) { action in
                 self.controller?.onUpdateNote(id: note.id ?? "", title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
                 self.navigationController?.popViewController(animated: true)
@@ -116,7 +122,7 @@ class AddNoteView: UIViewController {
             
         } else {
             if titleTF.text?.isEmpty != true, descriptionTF.text?.isEmpty != true {
-                let alert = UIAlertController(title: "Succes", message: "Notes saved successfully", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Succes".localized(), message: "Notes saved successfully".localized(), preferredStyle: .alert)
                 let action = UIAlertAction(title: "OK", style: .destructive) { action in
                     self.controller?.onAddNote(title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
                     self.navigationController?.popViewController(animated: true)

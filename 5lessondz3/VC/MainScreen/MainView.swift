@@ -20,17 +20,16 @@ class MainView: UIViewController {
     
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = "Search".localized()
         searchBar.backgroundImage = UIImage()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-//        searchBar.delegate = self
         searchBar.searchTextField.addTarget(self, action: #selector(searchBarEditingChanged), for: .editingChanged)
         return searchBar
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Notes"
+        label.text = "Notes".localized()
         label.font = .systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -63,7 +62,7 @@ class MainView: UIViewController {
     
     private let searchResultLabel: UILabel = {
         let label = UILabel()
-        label.text = "Nothing was found for your request..."
+        label.text = "Nothing was found for your request...".localized()
         label.isHidden = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +80,12 @@ class MainView: UIViewController {
         controller = MainController(view: self)
     }
     
+    private func localizeWords() {
+        titleLabel.text = "Notes".localized()
+        searchBar.placeholder = "Search".localized()
+        searchResultLabel.text = "Nothing was found for your request...".localized()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let isDarkTheme = UserDefaults.standard.bool(forKey: "isDarkTheme")
@@ -95,8 +100,8 @@ class MainView: UIViewController {
     }
     
     private func setupNavItem(isDarkTheme: Bool) {
-        
-        navigationItem.title = "Title"
+        localizeWords()
+        navigationItem.title = "Home".localized()
         let navItemSettingsButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsBtnTppd))
         navItemSettingsButton.tintColor = .black
         navigationItem.rightBarButtonItem = navItemSettingsButton
@@ -209,8 +214,4 @@ extension MainView: MainViewProtocol {
     }
 }
 
-extension MainView: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
-    }
-}
+
