@@ -18,6 +18,8 @@
 		1D33D6802BBC0360008AD1D1 /* ChangeLanguageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33D67F2BBC0360008AD1D1 /* ChangeLanguageTVCell.swift */; };
 		1D33D6892BBE9CF1008AD1D1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D33D68B2BBE9CF1008AD1D1 /* Localizable.strings */; };
 		1D33D6902BBE9D61008AD1D1 /* AppLanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33D68F2BBE9D61008AD1D1 /* AppLanguageManager.swift */; };
+		1D33D6932BC29264008AD1D1 /* Extension + Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33D6922BC29264008AD1D1 /* Extension + Color.swift */; };
+		1D33D6952BC29344008AD1D1 /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D33D6942BC29344008AD1D1 /* Extension + String.swift */; };
 		1D44C22E2BB21266002F1C9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C22D2BB21266002F1C9D /* AppDelegate.swift */; };
 		1D44C2302BB21266002F1C9D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C22F2BB21266002F1C9D /* SceneDelegate.swift */; };
 		1D44C2322BB21266002F1C9D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C2312BB21266002F1C9D /* MainView.swift */; };
@@ -32,7 +34,6 @@
 		1D44C2542BB213C5002F1C9D /* SettingsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C2532BB213C5002F1C9D /* SettingsTVCell.swift */; };
 		1D44C2572BB213E4002F1C9D /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C2562BB213E4002F1C9D /* OnBoardingView.swift */; };
 		1D44C2592BB21405002F1C9D /* OnBoardingCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C2582BB21405002F1C9D /* OnBoardingCVCell.swift */; };
-		1D44C25E2BB215ED002F1C9D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44C25D2BB215ED002F1C9D /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		1D33D68C2BBE9CF3008AD1D1 /* ky-KG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ky-KG"; path = "ky-KG.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1D33D68D2BBE9CF4008AD1D1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D33D68F2BBE9D61008AD1D1 /* AppLanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguageManager.swift; sourceTree = "<group>"; };
+		1D33D6922BC29264008AD1D1 /* Extension + Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Color.swift"; sourceTree = "<group>"; };
+		1D33D6942BC29344008AD1D1 /* Extension + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + String.swift"; sourceTree = "<group>"; };
 		1D44C22A2BB21266002F1C9D /* 5lessondz3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 5lessondz3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D44C22D2BB21266002F1C9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D44C22F2BB21266002F1C9D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +70,6 @@
 		1D44C2532BB213C5002F1C9D /* SettingsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVCell.swift; sourceTree = "<group>"; };
 		1D44C2562BB213E4002F1C9D /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		1D44C2582BB21405002F1C9D /* OnBoardingCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingCVCell.swift; sourceTree = "<group>"; };
-		1D44C25D2BB215ED002F1C9D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,15 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		1D33D6912BC29230008AD1D1 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				1D33D6922BC29264008AD1D1 /* Extension + Color.swift */,
+				1D33D6942BC29344008AD1D1 /* Extension + String.swift */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
 		1D44C2212BB21266002F1C9D = {
 			isa = PBXGroup;
 			children = (
@@ -153,7 +164,7 @@
 		1D44C2412BB21284002F1C9D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1D44C25C2BB215D9002F1C9D /* Colors */,
+				1D33D6912BC29230008AD1D1 /* SupportFiles */,
 				1D44C2362BB21267002F1C9D /* Assets.xcassets */,
 				1D44C2382BB21267002F1C9D /* LaunchScreen.storyboard */,
 			);
@@ -201,14 +212,6 @@
 				1D44C2582BB21405002F1C9D /* OnBoardingCVCell.swift */,
 			);
 			path = OnBoardingScreen;
-			sourceTree = "<group>";
-		};
-		1D44C25C2BB215D9002F1C9D /* Colors */ = {
-			isa = PBXGroup;
-			children = (
-				1D44C25D2BB215ED002F1C9D /* UIColor.swift */,
-			);
-			path = Colors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,7 +288,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D44C2502BB213A1002F1C9D /* SettingsController.swift in Sources */,
-				1D44C25E2BB215ED002F1C9D /* UIColor.swift in Sources */,
+				1D33D6932BC29264008AD1D1 /* Extension + Color.swift in Sources */,
+				1D33D6952BC29344008AD1D1 /* Extension + String.swift in Sources */,
 				1D44C2322BB21266002F1C9D /* MainView.swift in Sources */,
 				1D33D6902BBE9D61008AD1D1 /* AppLanguageManager.swift in Sources */,
 				1D44C24E2BB2138D002F1C9D /* SettingsView.swift in Sources */,

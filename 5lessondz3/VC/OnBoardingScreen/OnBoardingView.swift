@@ -17,7 +17,7 @@ class OnBoardingView: UIViewController {
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 20, height: 280)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 20, height: 260)
         layout.minimumLineSpacing = 20
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -32,7 +32,7 @@ class OnBoardingView: UIViewController {
     private let skipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Skip", for: .normal)
-        button.setTitleColor(.red, for: .normal)
+        button.setTitleColor(UIColor(named: "red"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(skipBtnTppd), for: .touchUpInside)
         return button
@@ -43,20 +43,21 @@ class OnBoardingView: UIViewController {
         button.setTitle("Next", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 20
-        button.backgroundColor = .red
+        button.backgroundColor = UIColor(named: "red")
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(nextBtnTppd), for: .touchUpInside)
         return button
     }()
     
     let pageControl: UIPageControl = {
-            let pc = UIPageControl()
-            
-            pc.numberOfPages = 3
-            pc.translatesAutoresizingMaskIntoConstraints = false
-            
-            return pc
-        }()
+        let pc = UIPageControl()
+        pc.currentPage = 0
+        pc.numberOfPages = 3
+        pc.pageIndicatorTintColor = .lightGray
+        pc.currentPageIndicatorTintColor = .darkGray
+        pc.translatesAutoresizingMaskIntoConstraints = false
+        return pc
+    }()
     
     var currentIndex = 0
     
@@ -75,6 +76,7 @@ class OnBoardingView: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(OnBoardingCVCell.self, forCellWithReuseIdentifier: "cell")
         
         setupUI()
@@ -87,22 +89,29 @@ class OnBoardingView: UIViewController {
             [collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
              collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
              collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-             collectionView.heightAnchor.constraint(equalToConstant: 300)
+             collectionView.heightAnchor.constraint(equalToConstant: 260)
             ])
         
         view.addSubview(skipButton)
         NSLayoutConstraint.activate(
-            [skipButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
-             skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
-             skipButton.heightAnchor.constraint(equalToConstant: 40)
+            [skipButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -133),
+             skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+             skipButton.heightAnchor.constraint(equalToConstant: 40),
+             skipButton.widthAnchor.constraint(equalToConstant: (view.frame.width - 44) / 2)
             ])
         
         view.addSubview(nextButton)
         NSLayoutConstraint.activate(
-            [nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
-             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            [nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -133),
+             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
              nextButton.heightAnchor.constraint(equalToConstant: 40),
-             nextButton.widthAnchor.constraint(equalToConstant: 180)
+             nextButton.widthAnchor.constraint(equalToConstant: (view.frame.width - 44) / 2)
+            ])
+        
+        view.addSubview(pageControl)
+        NSLayoutConstraint.activate(
+            [pageControl.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             ])
     }
     
@@ -115,6 +124,7 @@ class OnBoardingView: UIViewController {
     @objc func nextBtnTppd() {
         currentIndex += 1
         if currentIndex < 3 {
+            pageControl.currentPage = currentIndex
             collectionView.isPagingEnabled = false
             collectionView.scrollToItem(at: IndexPath(row: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
             collectionView.isPagingEnabled = true
@@ -142,6 +152,26 @@ extension OnBoardingView: UICollectionViewDataSource {
         return cell
     }
     
+}
+
+extension OnBoardingView: UICollectionViewDelegateFlowLayout {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffsetX = scrollView.contentOffset.x
+        let width = view.frame.width
+        
+        let page = contentOffsetX / width
+        
+        switch page {
+        case 0.0:
+            pageControl.currentPage = 0
+        case 1.0:
+            pageControl.currentPage = 1
+        case 2.0:
+            pageControl.currentPage = 2
+        default:
+            ()
+        }
+    }
 }
             
 

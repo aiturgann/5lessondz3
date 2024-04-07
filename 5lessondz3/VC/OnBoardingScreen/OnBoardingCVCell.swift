@@ -51,7 +51,7 @@ class OnBoardingCVCell: UICollectionViewCell {
             [backView.topAnchor.constraint(equalTo: contentView.topAnchor),
              backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
              backView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-             backView.heightAnchor.constraint(equalToConstant: 280 ),
+             backView.heightAnchor.constraint(equalToConstant: 260 ),
              backView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ])
         

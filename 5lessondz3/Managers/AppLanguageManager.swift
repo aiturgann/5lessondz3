@@ -42,9 +42,3 @@ class AppLanguageManager {
     }
 }
 
-extension String {
-    func localized() -> String {
-        let bundle = AppLanguageManager.shared.bundle
-        return NSLocalizedString(self, tableName: "Localizable", bundle: bundle, comment: "")
-    }
-}

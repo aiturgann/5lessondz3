@@ -1,8 +1,8 @@
 //
-//  UIColor.swift
+//  Extension + Color.swift
 //  5lessondz3
 //
-//  Created by Aiturgan Kurmanbekova on 26/3/24.
+//  Created by Aiturgan Kurmanbekova on 7/4/24.
 //
 
 import UIKit
@@ -31,4 +31,8 @@ extension UIColor {
     }
 }
 
-
+extension UIColor {
+    func rgb(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) -> UIColor {
+        return UIColor.init(red: r/255, green: g/255, blue: b/255, alpha: alpha)
+    }
+}

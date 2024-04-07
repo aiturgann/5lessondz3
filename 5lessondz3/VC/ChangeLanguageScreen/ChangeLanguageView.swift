@@ -34,11 +34,11 @@ class ChangeLanguageView: UIViewController {
     }()
     
     private var languages: [Language] = [Language(image: .kg, 
-                                                  title: "Кыргызча"),
+                                                  title: "Kyrgyz".localized()),
                                          Language(image: .ru,
-                                                  title: "Русский"),
+                                                  title: "Russian".localized()),
                                          Language(image: .usa,
-                                                  title: "English")]
+                                                  title: "English".localized())]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +47,13 @@ class ChangeLanguageView: UIViewController {
     }
     
     private func localizeWords() {
+        languages = [Language(image: .kg,
+                              title: "Kyrgyz".localized()),
+                     Language(image: .ru,
+                              title: "Russian".localized()),
+                     Language(image: .usa,
+                              title: "English".localized())]
+        tableView.reloadData()
         titleLabel.text = "Choose language".localized()
     }
     

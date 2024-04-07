@@ -18,6 +18,10 @@ class AddNoteView: UIViewController {
     var controller: AddNoteControllerProtocol?
     
     private var note: Note?
+    
+    private var isTitleEmpty: Bool = true
+    
+    private var isDescriptionEmpty: Bool = true
         
     private lazy var titleTF: UITextField = {
         let tf = UITextField()
@@ -31,22 +35,22 @@ class AddNoteView: UIViewController {
         tf.addTarget(self, action: #selector(validateTF), for: .editingChanged)
         if let note = note {
             tf.text = note.title
+            isTitleEmpty = false
+            isDescriptionEmpty = false
         }
         return tf
     }()
     
-    private lazy var descriptionTF:UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Start typing".localized()
+    private lazy var descriptionTV: UITextView = {
+        let tf = UITextView()
         tf.layer.cornerRadius = 20
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
-        tf.leftView = leftView
-        tf.leftViewMode = .always
         tf.backgroundColor = .systemGray6
         tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.addTarget(self, action: #selector(validateTF), for: .editingChanged)
+        tf.delegate = self
         if let note = note {
             tf.text = note.desc
+            isTitleEmpty = false
+            isDescriptionEmpty = false
         }
         return tf
     }()
@@ -69,12 +73,10 @@ class AddNoteView: UIViewController {
         controller = AddNoteController(view: self)
         view.backgroundColor = .systemBackground
         setupUI()
-        setupNavItem()
     }
     
     private func localizeWords() {
         titleTF.placeholder = "Title".localized()
-        descriptionTF.placeholder = "Start typing".localized()
         saveButton.setTitle("Save".localized(), for: .normal)
     }
     
@@ -82,12 +84,31 @@ class AddNoteView: UIViewController {
         self.note = note
     }
     
-    private func setupNavItem() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isDarkTheme = UserDefaults.standard.bool(forKey: "isDarkTheme")
+        if isDarkTheme == true {
+            view.overrideUserInterfaceStyle = .dark
+        } else {
+            view.overrideUserInterfaceStyle = .light
+        }
+        
+        setupNavItem(isDarkTheme: isDarkTheme)
+    }
+    
+    private func setupNavItem(isDarkTheme: Bool) {
         localizeWords()
         let navItemSettingsButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteBtnTppd))
         navItemSettingsButton.tintColor = .black
         if note != nil {
             navigationItem.rightBarButtonItem = navItemSettingsButton
+        }
+        if isDarkTheme == true {
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            navigationItem.rightBarButtonItem?.tintColor = .white
+        } else {
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            navigationItem.rightBarButtonItem?.tintColor = .black
         }
     }
     
@@ -114,32 +135,49 @@ class AddNoteView: UIViewController {
         if let note = note {
             let alert = UIAlertController(title: "Succes".localized(), message: "Notes updated successfully".localized(), preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .destructive) { action in
-                self.controller?.onUpdateNote(id: note.id ?? "", title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
+                self.controller?.onUpdateNote(id: note.id ?? "", title: self.titleTF.text ?? "", description: self.descriptionTV.text ?? "")
                 self.navigationController?.popViewController(animated: true)
             }
             alert.addAction(action)
             present(alert, animated: true)
             
         } else {
-            if titleTF.text?.isEmpty != true, descriptionTF.text?.isEmpty != true {
-                let alert = UIAlertController(title: "Succes".localized(), message: "Notes saved successfully".localized(), preferredStyle: .alert)
-                let action = UIAlertAction(title: "OK", style: .destructive) { action in
-                    self.controller?.onAddNote(title: self.titleTF.text ?? "", description: self.descriptionTF.text ?? "")
-                    self.navigationController?.popViewController(animated: true)
-                }
-                alert.addAction(action)
-                present(alert, animated: true)
+            let alert = UIAlertController(title: "Succes".localized(), message: "Notes saved successfully".localized(), preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .destructive) { action in
+                self.controller?.onAddNote(title: self.titleTF.text ?? "", description: self.descriptionTV.text ?? "")
+                self.navigationController?.popViewController(animated: true)
             }
+            alert.addAction(action)
+            present(alert, animated: true)
         }
     }
     
     @objc private func validateTF() {
-        if titleTF.text?.isEmpty == true, descriptionTF.text?.isEmpty == true {
+        guard let text = titleTF.text else { return }
+        if text.isEmpty {
+            isTitleEmpty = true
+        } else {
+            isTitleEmpty = false
+        }
+        if let note = note {
+            if text != note.title, isTitleEmpty == false, isDescriptionEmpty == false {
+                saveButton.isEnabled = true
+                saveButton.backgroundColor = UIColor(named: "red")
+            } else {
+                saveButton.isEnabled = false
+                saveButton.backgroundColor = .systemGray5
+            }
+        }  else if isTitleEmpty == true || isDescriptionEmpty == true {
             saveButton.isEnabled = false
             saveButton.backgroundColor = .systemGray5
-        } else {
-            saveButton.isEnabled = true
-            saveButton.backgroundColor = .red
+        }else {
+            if isTitleEmpty == true {
+                saveButton.isEnabled = false
+                saveButton.backgroundColor = .systemGray5
+            } else if isTitleEmpty == false, isDescriptionEmpty == false {
+                    saveButton.isEnabled = true
+                    saveButton.backgroundColor = UIColor(named: "red")
+                }
         }
     }
     
@@ -152,12 +190,12 @@ class AddNoteView: UIViewController {
              titleTF.heightAnchor.constraint(equalToConstant: 40)
             ])
         
-        view.addSubview(descriptionTF)
+        view.addSubview(descriptionTV)
         NSLayoutConstraint.activate(
-            [descriptionTF.topAnchor.constraint(equalTo: titleTF.bottomAnchor, constant: 26),
-             descriptionTF.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-             descriptionTF.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-             descriptionTF.heightAnchor.constraint(equalToConstant: 50)
+            [descriptionTV.topAnchor.constraint(equalTo: titleTF.bottomAnchor, constant: 26),
+             descriptionTV.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+             descriptionTV.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+             descriptionTV.heightAnchor.constraint(equalToConstant: 300)
             ])
         
         view.addSubview(saveButton)
@@ -182,3 +220,32 @@ extension AddNoteView: AddNoteViewProtocol {
     }
 }
 
+extension AddNoteView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text else { return }
+        if text.isEmpty {
+            isDescriptionEmpty = true
+        } else {
+            isDescriptionEmpty = false
+        }
+        if let note = note {
+            if text != note.desc, isTitleEmpty == false, isDescriptionEmpty == false {
+                saveButton.isEnabled = true
+                saveButton.backgroundColor = UIColor(named: "red")
+            } else {
+                saveButton.isEnabled = false
+                saveButton.backgroundColor = .systemGray5
+            }
+        }  else if isTitleEmpty == true || isDescriptionEmpty == true {
+            saveButton.isEnabled = false
+            saveButton.backgroundColor = .systemGray5
+        }else {
+            if isTitleEmpty == true {
+                saveButton.isEnabled = false
+                saveButton.backgroundColor = .systemGray5
+            } else if isTitleEmpty == false, isDescriptionEmpty == false {
+                    saveButton.isEnabled = true
+                    saveButton.backgroundColor = UIColor(named: "red")
+                }
+        }    }
+}

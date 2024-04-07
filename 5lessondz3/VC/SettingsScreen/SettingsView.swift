@@ -140,7 +140,7 @@ extension SettingsView: UITableViewDataSource {
             cell.rightButton.setTitleColor(.black, for: .normal)
             cell.rightButton.tintColor = .black
         }
-        
+    
         return cell
     }
     

@@ -18,6 +18,8 @@ class MainView: UIViewController {
     
     private var controller: MainControllerProtocol?
     
+    private var isSearching: Bool = false
+    
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search".localized()
@@ -53,7 +55,7 @@ class MainView: UIViewController {
         button.setTitle("+", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.backgroundColor = .red
+        button.backgroundColor = UIColor(named: "red")
         button.layer.cornerRadius = 42/2
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addBtnTppd), for: .touchUpInside)
@@ -62,7 +64,6 @@ class MainView: UIViewController {
     
     private let searchResultLabel: UILabel = {
         let label = UILabel()
-        label.text = "Nothing was found for your request...".localized()
         label.isHidden = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -78,12 +79,12 @@ class MainView: UIViewController {
         
         setupUI()
         controller = MainController(view: self)
+        addGestureRecognizer()
     }
     
     private func localizeWords() {
         titleLabel.text = "Notes".localized()
         searchBar.placeholder = "Search".localized()
-        searchResultLabel.text = "Nothing was found for your request...".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,6 +98,10 @@ class MainView: UIViewController {
         
         setupNavItem(isDarkTheme: isDarkTheme)
         controller?.onGetNotes()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationItem.title = ""
     }
     
     private func setupNavItem(isDarkTheme: Bool) {
@@ -170,7 +175,26 @@ class MainView: UIViewController {
         guard let text = searchBar.text else {
             return
         }
+        isSearching = true
         controller?.onSearchNotes(text: text)
+    }
+    
+    private func addGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(resignSearchBar))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func resignSearchBar() {
+        if searchBar.text?.isEmpty == true {
+            searchBar.text = ""
+            searchBar.resignFirstResponder()
+            if notes.isEmpty {
+                searchResultLabel.text = "Add your first note!".localized()
+            } else {
+                searchResultLabel.text = ""
+            }
+        }   
     }
     
 }
@@ -205,8 +229,14 @@ extension MainView: MainViewProtocol {
     
     func successNotes(notes: [Note]) {
         if notes.isEmpty {
+            if isSearching {
+                searchResultLabel.text = "Nothing was found for your request...".localized()
+            } else {
+                searchResultLabel.text = "Add your first note!".localized()
+            }
             searchResultLabel.isHidden = false
         } else {
+            searchResultLabel.text = ""
             searchResultLabel.isHidden = true
         }
         self.notes = notes
